@@ -1,22 +1,22 @@
 /*
-* Copyright (c) 2014 Microsoft Open Technologies, Inc. 
-*   
-*    Licensed under the Apache License, Version 2.0 (the "License"); you may 
-*    not use this file except in compliance with the License. You may obtain 
+* Copyright (c) 2014 Microsoft Open Technologies, Inc.
+*
+*    Licensed under the Apache License, Version 2.0 (the "License"); you may
+*    not use this file except in compliance with the License. You may obtain
 *    a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
 *
-*    THIS CODE IS PROVIDED ON AN  *AS IS* BASIS, WITHOUT WARRANTIES OR 
-*    CONDITIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT 
-*    LIMITATION ANY IMPLIED WARRANTIES OR CONDITIONS OF TITLE, FITNESS 
+*    THIS CODE IS PROVIDED ON AN  *AS IS* BASIS, WITHOUT WARRANTIES OR
+*    CONDITIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT
+*    LIMITATION ANY IMPLIED WARRANTIES OR CONDITIONS OF TITLE, FITNESS
 *    FOR A PARTICULAR PURPOSE, MERCHANTABLITY OR NON-INFRINGEMENT.
 *
-*    See the Apache Version 2.0 License for specific language governing 
-*    permissions and limitations under the License. 
+*    See the Apache Version 2.0 License for specific language governing
+*    permissions and limitations under the License.
 *
 *    Microsoft would like to thank the following companies for their review and
 *    assistance with these files: Intel Corporation, Mellanox Technologies Ltd,
 *    Dell Products, L.P., Facebook, Inc
-*   
+*
 * Module Name:
 *
 *    sainexthop.h
@@ -36,7 +36,7 @@
  *
  *  \{
  */
- 
+
 /**
  *  @brief Next hop type
  */
@@ -44,11 +44,9 @@ typedef enum _sai_next_hop_type_t
 {
     SAI_NEXT_HOP_IP,
 
-    /** MPLS(NHLFE) next hop */
-    SAI_NEXT_HOP_MPLS,
-
-    /** tunnel next hop */
-    SAI_NEXT_HOP_TUNNEL_ENCAP
+    /**
+    Tunneling to be added later
+    */
 
 } sai_next_hop_type_t;
 
@@ -57,15 +55,12 @@ typedef enum _sai_next_hop_type_t
 */
 typedef enum _sai_next_hop_attr_t
 {
-    
-    SAI_NEXT_HOP_ATTR_START,
-
     /** READ-ONLY */
 
     /** READ-WRITE */
 
     /** Next hop entry type [sai_next_hop_type_t] (MANDATORY_ON_CREATE|CREATE_ONLY) */
-    SAI_NEXT_HOP_ATTR_TYPE = SAI_NEXT_HOP_ATTR_START,
+    SAI_NEXT_HOP_ATTR_TYPE,
 
     /** Next hop entry ipv4 address [sai_ip_address_t]
      * (MANDATORY_ON_CREATE when SAI_NEXT_HOP_ATTR_TYPE = SAI_NEXT_HOP_IP)
@@ -75,21 +70,10 @@ typedef enum _sai_next_hop_attr_t
     /** Next hop entry router interface id [sai_object_id_t] (MANDATORY_ON_CREATE|CREATE_ONLY) */
     SAI_NEXT_HOP_ATTR_ROUTER_INTERFACE_ID,
 
-    /** Next hop entry tunnel-id [sai_object_id_t]
-    * (MANDATORY_ON_CREATE when SAI_NEXT_HOP_ATTR_TYPE = SAI_NEXT_HOP_TUNNEL_ENCAP)
-    * (CREATE_ONLY) */
-    SAI_NEXT_HOP_ATTR_TUNNEL_ID,
-
     /* -- */
 
-    SAI_NEXT_HOP_ATTR_END,
-
     /** Custom range base value */
-    SAI_NEXT_HOP_ATTR_CUSTOM_RANGE_START = 0x10000000,
-
-    /* --*/
-    SAI_NEXT_HOP_ATTR_CUSTOM_RANGE_END
-
+    SAI_NEXT_HOP_ATTR_CUSTOM_RANGE_BASE  = 0x10000000
 
 } sai_next_hop_attr_t;
 

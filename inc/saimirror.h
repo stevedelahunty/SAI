@@ -57,7 +57,7 @@ typedef enum _sai_mirror_type_t
  */
 typedef enum _sai_erspan_encapsulation_type_t
 {
-    /** L3 GRE Tunnel Encapsulation    
+    /** L3 GRE Tunnel Encapsulation
       | L2 Ethernet header | IP header | GRE header | Original mirrored packet |
      */
     SAI_MIRROR_L3_GRE_TUNNEL,
@@ -69,15 +69,13 @@ typedef enum _sai_erspan_encapsulation_type_t
  */
 typedef enum _sai_mirror_session_attr_t
 {
-    
-    SAI_MIRROR_SESSION_ATTR_START,
     /** READ_ONLY */
 
     /** READ_WRITE */
 
     /** MANDATORY_ON_CREATE|CREATE_ONLY */
     /** Mirror type SPAN/RSPAN/ERSPAN [sai_mirror_type_t]*/
-    SAI_MIRROR_SESSION_ATTR_TYPE = SAI_MIRROR_SESSION_ATTR_START,
+    SAI_MIRROR_SESSION_ATTR_TYPE,
 
     /** MANDATORY_ON_CREATE|CREATE_AND_SET */
     /** Destination/Analyser/Monitor Port [sai_object_id_t]*/
@@ -110,7 +108,7 @@ typedef enum _sai_mirror_session_attr_t
     /** Valid for RSPAN and ERSPAN Vlan-CFI - [uint8_t : 1] */
     SAI_MIRROR_SESSION_ATTR_VLAN_CFI,
 
-    /** All attributes below are Valid only for ERSPAN 
+    /** All attributes below are Valid only for ERSPAN
         [SAI_MIRROR_TYPE_ENHANCED_REMOTE]*/
 
     /** MANDATORY_ON_CREATE|CREATE_ONLY */
@@ -146,10 +144,8 @@ typedef enum _sai_mirror_session_attr_t
     SAI_MIRROR_SESSION_ATTR_DST_MAC_ADDRESS,
 
     /** MANDATORY_ON_CREATE|CREATE_AND_SET */
-    /** Valid for ERSPAN, GRE protocol Id - [uint16_t] */
+    /** GRE protocol Id - [uint16_t] */
     SAI_MIRROR_SESSION_ATTR_GRE_PROTOCOL_TYPE,
-
-    SAI_MIRROR_SESSION_ATTR_END,    
 
 } sai_mirror_session_attr_t;
 

@@ -179,11 +179,17 @@ typedef enum _sai_port_media_type_t
     /** Media type not known */
     SAI_PORT_MEDIA_TYPE_UNKNONWN,
 
-    /** Media type fiber. Remote advertise medium information as fiber */
-    SAI_PORT_MEDIA_TYPE_FIBER,
+    /** Media type QSFP fiber optic */
+    SAI_PORT_MEDIA_TYPE_QSFP_FIBER,
 
-    /** Media type copper. Remote advertise medium information as copper */
-    SAI_PORT_MEDIA_TYPE_COPPER,
+    /** Media type QSFP copper optic */
+    SAI_PORT_MEDIA_TYPE_QSFP_COPPER,
+
+    /** Media type SFP fiber optic */
+    SAI_PORT_MEDIA_TYPE_SFP_FIBER,
+
+    /** Media type SFP copper optic */
+    SAI_PORT_MEDIA_TYPE_SFP_COPPER,
 } sai_port_media_type_t;
 
 /**
@@ -192,13 +198,10 @@ typedef enum _sai_port_media_type_t
  */
 typedef enum _sai_port_attr_t
 {
-        
-    SAI_PORT_ATTR_START,
-    
     /** READ-ONLY */
 
     /** Port Type [sai_port_type_t] */
-    SAI_PORT_ATTR_TYPE = SAI_PORT_ATTR_START,
+    SAI_PORT_ATTR_TYPE,
 
     /** Operational Status [sai_port_oper_status_t] */
     SAI_PORT_ATTR_OPER_STATUS,
@@ -224,65 +227,8 @@ typedef enum _sai_port_attr_t
     /** List of Scheduler groups for the port[sai_object_list_t] */
     SAI_PORT_ATTR_QOS_SCHEDULER_GROUP_LIST,
 
-    /** Query list of supported port speed(full-duplex) in Mbps [sai_u32_list_t] */
+    /** Query list of supported port speed in Mbps [sai_u32_list_t] */
     SAI_PORT_ATTR_SUPPORTED_SPEED,
-
-    /** Query list of Supported HALF-Duplex speed in Mbps [sai_u32_list_t] */
-    SAI_PORT_ATTR_SUPPORTED_HALF_DUPLEX_SPEED,
-
-    /** Query auto-negotiation support [bool] */
-    SAI_PORT_ATTR_SUPPORTED_AUTO_NEG_MODE,
-
-    /** Query port supported flow control mode [sai_port_flow_control_mode_t] */
-    SAI_PORT_ATTR_SUPPORTED_FLOW_CONTROL,
-
-    /** Query port supported asymmetric pause mode [bool] */
-    SAI_PORT_ATTR_SUPPORTED_ASYMMETRIC_PAUSE_MODE,
-
-    /** Query port supported MEDIA type [sai_port_media_type_t] */
-    SAI_PORT_ATTR_SUPPORTED_MEDIA_TYPE,
-
-    /** Query list of supported remote port speed (Full-Duplex)
-      * in Mbps [sai_u32_list_t] */
-    SAI_PORT_ATTR_REMOTE_SUPPORTED_SPEED,
-
-    /** Query list of Remote Port’s Supported
-      * HALF-Duplex speed in Mbps [sai_u32_list_t] */
-    SAI_PORT_ATTR_REMOTE_SUPPORTED_HALF_DUPLEX_SPEED,
-
-    /** Query Remote Port’s auto-negotiation support [bool] */
-    SAI_PORT_ATTR_REMOTE_SUPPORTED_AUTO_NEG_MODE,
-
-    /** Query Remote port supported flow control mode
-      * [sai_port_flow_control_mode_t] */
-    SAI_PORT_ATTR_REMOTE_SUPPORTED_FLOW_CONTROL,
-
-    /** Query Remote port supported asymmetric pause mode [bool] */
-    SAI_PORT_ATTR_REMOTE_SUPPORTED_ASYMMETRIC_PAUSE_MODE,
-
-    /** Query Remote port MEDIA type [sai_port_media_type_t] */
-    SAI_PORT_ATTR_REMOTE_SUPPORTED_MEDIA_TYPE,
-
-    /** Query list of Advertised remote port speed (Full-Duplex)
-      * in Mbps [sai_u32_list_t] */
-    SAI_PORT_ATTR_REMOTE_ADVERTISED_SPEED,
-
-    /** Query list of Remote Port’s
-      * Advertised HALF-Duplex speed in Mbps [sai_u32_list_t] */
-    SAI_PORT_ATTR_REMOTE_ADVERTISED_HALF_DUPLEX_SPEED,
-
-    /** Query Remote Port’s auto-negotiation Advertisement [bool] */
-    SAI_PORT_ATTR_REMOTE_ADVERTISED_AUTO_NEG_MODE,
-
-    /** Query Remote port Advertised flow control mode
-      * [sai_port_flow_control_mode_t] */
-    SAI_PORT_ATTR_REMOTE_ADVERTISED_FLOW_CONTROL,
-
-    /** Query Remote port Advertised asymmetric pause mode [bool] */
-    SAI_PORT_ATTR_REMOTE_ADVERTISED_ASYMMETRIC_PAUSE_MODE,
-
-    /** Query Remote port Advertised MEDIA type [sai_port_media_type_t] */
-    SAI_PORT_ATTR_REMOTE_ADVERTISED_MEDIA_TYPE,
 
     /** Number of ingress priority groups [sai_uint32_t] */
     SAI_PORT_ATTR_NUMBER_OF_PRIORITY_GROUPS,
@@ -306,27 +252,6 @@ typedef enum _sai_port_attr_t
     /** Media Type [sai_port_media_type_t],
      * (default to SAI_PORT_MEDIA_TYPE_NOT_PRESENT) */
     SAI_PORT_ATTR_MEDIA_TYPE,
-
-    /** Query/Configure list of Advertised port speed (Full-Duplex)
-      * in Mbps [sai_u32_list_t] */
-    SAI_PORT_ATTR_ADVERTISED_SPEED,
-
-    /** Query/Configure list of Advertised
-     * HALF-Duplex speed in Mbps [sai_u32_list_t] */
-    SAI_PORT_ATTR_ADVERTISED_HALF_DUPLEX_SPEED,
-
-    /** Query/Configure Port’s Advertised auto-negotiation configuration [bool] */
-    SAI_PORT_ATTR_ADVERTISED_AUTO_NEG_MODE,
-
-    /** Query/Configure Port’s Advertised flow control mode
-      * [sai_port_flow_control_mode_t] */
-    SAI_PORT_ATTR_ADVERTISED_FLOW_CONTROL,
-
-    /** Query port's Advertised asymmetric pause mode [bool] */
-    SAI_PORT_ATTR_ADVERTISED_ASYMMETRIC_PAUSE_MODE,
-
-    /** Query/Configure Port’s Advertised media type [sai_port_media_type_t] */
-    SAI_PORT_ATTR_ADVERTISED_MEDIA_TYPE,
 
     /** Port VLAN ID [sai_vlan_id_t]
      * Untagged ingress frames are tagged with Port VLAN ID (PVID)
@@ -418,7 +343,7 @@ typedef enum _sai_port_attr_t
      * Policer id = SAI_NULL_OBJECT_ID to disable policer on port */
     SAI_PORT_ATTR_POLICER_ID,
 
-    /** Port default Traffic class Mapping [sai_uint8_t], Default TC=0*/
+    /** Port default Traffic class Mapping */
     SAI_PORT_ATTR_QOS_DEFAULT_TC,
 
    /** Enable DOT1P -> TC MAP [sai_object_id_t] on port
@@ -433,6 +358,12 @@ typedef enum _sai_port_attr_t
     * Default no map */
     SAI_PORT_ATTR_QOS_DOT1P_TO_COLOR_MAP,
 
+    /** Enable DOT1P -> TC AND COLOR MAP [sai_object_id_t] on port
+    * MAP id = SAI_NULL_OBJECT_ID to disable map on port.
+    * To enable/disable trust Dot1p, Map ID should be add/remove on port.
+    * Default no map */
+    SAI_PORT_ATTR_QOS_DOT1P_TO_TC_AND_COLOR_MAP,
+
    /** Enable DSCP -> TC MAP [sai_object_id_t] on port
     * MAP id = SAI_NULL_OBJECT_ID to disable map on port.
     * To enable/disable trust DSCP, Map ID should be add/remove on port.
@@ -445,16 +376,31 @@ typedef enum _sai_port_attr_t
     * Default no map */
     SAI_PORT_ATTR_QOS_DSCP_TO_COLOR_MAP,
 
+    /** Enable DSCP -> TC AND COLOR MAP [sai_object_id_t] on port
+    * MAP id = SAI_NULL_OBJECT_ID to disable map on port.
+    * To enable/disable trust DSCP, Map ID should be add/remove on port.
+    * Default no map */
+    SAI_PORT_ATTR_QOS_DSCP_TO_TC_AND_COLOR_MAP,
 
    /** Enable TC -> Queue MAP [sai_object_id_t]  on port
     * Map id = SAI_NULL_OBJECT_ID to disable map on port.
     * Default no map i.e All packets to queue 0 */
     SAI_PORT_ATTR_QOS_TC_TO_QUEUE_MAP,
 
+   /** Enable TC -> DOT1P MAP [sai_object_id_t]
+    * Map id = SAI_NULL_OBJECT_ID to disable map on port.
+    * Default no map */
+    SAI_PORT_ATTR_QOS_TC_TO_DOT1P_MAP,
+
     /** Enable TC AND COLOR -> DOT1P MAP [sai_object_id_t]
     * Map id = SAI_NULL_OBJECT_ID to disable map on port.
     * Default no map */
     SAI_PORT_ATTR_QOS_TC_AND_COLOR_TO_DOT1P_MAP,
+
+   /** Enable TC -> DSCP MAP [sai_object_id_t]
+    * Map id = SAI_NULL_OBJECT_ID to disable map on port.
+    * Default no map */
+    SAI_PORT_ATTR_QOS_TC_TO_DSCP_MAP,
 
    /** Enable TC AND COLOR -> DSCP MAP [sai_object_id_t]
     * Map id = SAI_NULL_OBJECT_ID to disable map on port.
@@ -466,10 +412,10 @@ typedef enum _sai_port_attr_t
      * Default no map */
     SAI_PORT_ATTR_QOS_TC_TO_PRIORITY_GROUP_MAP,
 
-    /** Enable PFC Priority -> Priority Group MAP [sai_object_id_t]
+    /** Enable Priority Group -> PFC Priority MAP [sai_object_id_t]
      * Map id = SAI_NULL_OBJECT_ID to disable map on port.
      * Default no map */
-    SAI_PORT_ATTR_QOS_PFC_PRIORITY_TO_PRIORITY_GROUP_MAP,
+    SAI_PORT_ATTR_QOS_PRIORITY_GROUP_TO_PFC_PRIORITY_MAP,
 
     /** Enable PFC Priority -> Queue MAP [sai_object_id_t]
      * Map id = SAI_NULL_OBJECT_ID to disable map on port.
@@ -477,12 +423,11 @@ typedef enum _sai_port_attr_t
     SAI_PORT_ATTR_QOS_PFC_PRIORITY_TO_QUEUE_MAP,
 
     /** Attach WRED to port [sai_object_id_t]
-     * ID = SAI_NULL_OBJECT_ID to disable WRED. */
+     (mandatory when SAI_PORT_ATTR_QOS_DROP_TYPE =  SAI_QOS_DROP_TYPE_WRED) */
     SAI_PORT_ATTR_QOS_WRED_PROFILE_ID,
 
-    /** Scheduler for port [sai_object_id_t], Default no limits.
-     * SAI_SCHEDULER_ATTR_MAX_BANDWIDTH_RATE & SAI_SCHEDULER_ATTR_MAX_BANDWIDTH_BURST_RATE
-     * attributes alone valid. Rest will be ignored */
+    /** Scheduler for port [sai_object_id_t],
+     * Default no limits */
     SAI_PORT_ATTR_QOS_SCHEDULER_PROFILE_ID,
 
     /** Ingress buffer profiles for port [sai_object_list_t]
@@ -506,26 +451,10 @@ typedef enum _sai_port_attr_t
      * given port list will be dropped. */
     SAI_PORT_ATTR_EGRESS_BLOCK_PORT_LIST,
 
-    /** Port Hardware Configuration Profile ID [sai_uint64_t]
-     * Port can require different hardware configuration based on the attached
-     * media type, cable length etc. A Profile ID maps to a Port Hardware
-     * configuration settings that needs to be applied on the Port.
-     * This attribute need not be implemented and can be ignored if the port
-     * doesn't require any specific hardware settings based on media type/cable.
-     */
-    SAI_PORT_ATTR_HW_PROFILE_ID,
-
     /** -- */
 
-    SAI_PORT_ATTR_END,
-
-
     /* Custom range base value */
-    SAI_PORT_ATTR_CUSTOM_RANGE_START = 0x10000000,
-
-    /* --*/
-    SAI_PORT_ATTR_CUSTOM_RANGE_END
-
+    SAI_PORT_ATTR_CUSTOM_RANGE_BASE  = 0x10000000
 
 } sai_port_attr_t;
 
@@ -619,9 +548,6 @@ typedef enum _sai_port_stat_counter_t
 
     /** get/set WRED dropped bytes  count [uint64_t] */
     SAI_PORT_STAT_DISCARD_DROPPED_BYTES,
-
-    /** get/set packets marked by ECN count [uint64_t] */
-    SAI_PORT_STAT_ECN_MARKED_PACKETS,
 
     /** packet size based packets count */
     SAI_PORT_STAT_ETHER_IN_PKTS_64_OCTETS,

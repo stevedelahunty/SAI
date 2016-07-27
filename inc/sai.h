@@ -54,9 +54,8 @@
 #include "saischeduler.h"
 #include "saischedulergroup.h"
 #include "saibuffer.h"
-#include "saihash.h"
 #include "saiudf.h"
-#include "saitunnel.h"
+#include "saihash.h"
 
 /** \defgroup SAI SAI - Entry point specific API definitions.
  *
@@ -66,14 +65,14 @@
 /**
  *
  * Defined API sets have assigned ID's. If specific api method table changes
- * in any way (method signature, number of methods), a new ID needs to be 
- * created (e.g. VLAN2) and old API still may need to be supported for 
+ * in any way (method signature, number of methods), a new ID needs to be
+ * created (e.g. VLAN2) and old API still may need to be supported for
  * compatibility with older adapter hosts.
  *
  */
 typedef enum _sai_api_t
-{    
-    SAI_API_UNSPECIFIED      =  0, 
+{
+    SAI_API_UNSPECIFIED      =  0,
     SAI_API_SWITCH           =  1,  /**< sai_switch_api_t */
     SAI_API_PORT             =  2,  /**< sai_port_api_t */
     SAI_API_FDB              =  3,  /**< sai_fdb_api_t */
@@ -99,7 +98,6 @@ typedef enum _sai_api_t
     SAI_API_BUFFERS          = 23,  /**< sai_buffer_api_t */
     SAI_API_HASH             = 24,  /**< sai_hash_api_t */
     SAI_API_UDF              = 25,  /**< sai_udf_api_t */
-    SAI_API_TUNNEL           = 26,  /**< sai_tunnel_api_t */
 } sai_api_t;
 
 typedef enum _sai_log_level_t
@@ -123,7 +121,7 @@ typedef struct _service_method_table_t
     const char* (*profile_get_value)(_In_ sai_switch_profile_id_t profile_id,
                                      _In_ const char* variable);
 
-    /** Enumerate all the K/V pairs in a profile. 
+    /** Enumerate all the K/V pairs in a profile.
      *  Pointer to NULL passed as variable restarts enumeration.
      *   Function returns 0 if next value exists, -1 at the end of the list. */
     int (*profile_get_next_value)(_In_ sai_switch_profile_id_t profile_id,
@@ -155,13 +153,13 @@ sai_api_initialize(
 
 /**
  * Routine Description:
- *     Retrieve a pointer to the C-style method table for desired SAI 
+ *     Retrieve a pointer to the C-style method table for desired SAI
  *     functionality as specified by the given sai_api_id.
  *
  * Arguments:
  *     @param[in]  sai_api_id       - SAI api ID
  *     @param[out] api_method_table - Caller allocated method table
- *           The table must remain valid until the sai_api_uninitialize() is called 
+ *           The table must remain valid until the sai_api_uninitialize() is called
  *
  * Return Values:
  *    @return  SAI_STATUS_SUCCESS on success
@@ -176,7 +174,7 @@ sai_api_query(
 
 /**
  * Routine Description:
- *   Uninitialization of the adapter module. SAI functionalities, retrieved via 
+ *   Uninitialization of the adapter module. SAI functionalities, retrieved via
  *   sai_api_query() cannot be used after this call.
  *
  * Arguments:
@@ -203,7 +201,7 @@ sai_api_uninitialize(
  *     @return  SAI_STATUS_SUCCESS on success
  *              Failure status code on error
  */
-sai_status_t 
+sai_status_t
 sai_log_set(
     _In_ sai_api_t sai_api_id,
     _In_ sai_log_level_t log_level
@@ -220,7 +218,7 @@ sai_log_set(
  *    @return  Return SAI_OBJECT_TYPE_NULL when sai_object_id is not valid.
  *             Otherwise, return a valid sai object type SAI_OBJECT_TYPE_XXX
  */
-sai_object_type_t 
+sai_object_type_t
 sai_object_type_query(
     _In_ sai_object_id_t sai_object_id
     );

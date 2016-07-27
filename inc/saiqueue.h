@@ -49,40 +49,53 @@ typedef enum _sai_queue_type_t
 
 } sai_queue_type_t;
 
+
+
+/**
+ * @brief Enum defining Drop type.
+ */
+typedef enum _sai_drop_type_t
+{
+
+    /** Tail Drop */
+    SAI_DROP_TYPE_TAIL = 0x00000000,
+
+    /** weighted Random early drop*/
+    SAI_DROP_TYPE_WRED = 0x00000001,
+
+    /* -- */
+    /* Custom range base value */
+    SAI_DROP_TYPE_CUSTOM_RANGE_BASE = 0x10000000
+
+} sai_drop_type_t;
+
 /**
  * @brief Enum defining queue attributes.
  */
 typedef enum _sai_queue_attr_t
 {
-
-    SAI_QUEUE_ATTR_START = 0x00000000,    
-
     /** READ-ONLY */
     /** Queue type [sai_queue_type_t] */
-    SAI_QUEUE_ATTR_TYPE = SAI_QUEUE_ATTR_START,
+    SAI_QUEUE_ATTR_TYPE = 0x00000000,
 
     /* READ-WRITE */
 
+    /** Drop Type [sai_drop_type_t], Default (TAIL DROP) */
+    SAI_QUEUE_ATTR_DROP_TYPE = 0x00000001,
+
     /** Attach WRED ID to queue [sai_object_id_t]
         ID = SAI_NULL_OBJECT_ID to disable WRED. */
-    SAI_QUEUE_ATTR_WRED_PROFILE_ID = 0x00000001,
+    SAI_QUEUE_ATTR_WRED_PROFILE_ID = 0x00000002,
 
     /** Attach buffer profile to Queue [sai_object_id_t] */
-    SAI_QUEUE_ATTR_BUFFER_PROFILE_ID = 0x00000002,
+    SAI_QUEUE_ATTR_BUFFER_PROFILE_ID = 0x00000003,
 
     /** Attach scheduler to Queue [sai_object_id_t]*/
-    SAI_QUEUE_ATTR_SCHEDULER_PROFILE_ID = 0x00000003,
+    SAI_QUEUE_ATTR_SCHEDULER_PROFILE_ID = 0x00000004,
 
     /* -- */
-
-    SAI_QUEUE_ATTR_END,
-    
     /* Custom range base value */
-    SAI_QUEUE_ATTR_CUSTOM_RANGE_START = 0x10000000,
-
-    /* --*/
-    SAI_QUEUE_ATTR_CUSTOM_RANGE_END
-
+    SAI_QUEUE_ATTR_CUSTOM_RANGE_BASE = 0x10000000
 
 } sai_queue_attr_t;
 
@@ -247,7 +260,6 @@ typedef sai_status_t (*sai_clear_queue_stats_fn)(
     _In_ const sai_queue_stat_counter_t *counter_ids,
     _In_ uint32_t number_of_counters
     );
-
 
 /**
  *  @brief Qos methods table retrieved with sai_api_query()
