@@ -128,7 +128,7 @@ static void rif_key_to_str(_In_ sai_object_id_t rif_id, _Out_ char *key_str)
  */
 sai_status_t stub_create_router_interface(_Out_ sai_object_id_t* rif_id,
                                           _In_ uint32_t          attr_count,
-                                          _In_ const sai_attribute_t  *attr_list)
+                                          _In_ sai_attribute_t  *attr_list)
 {
     sai_status_t                 status;
     const sai_attribute_value_t *type, *vrid, *port, *vlan;
