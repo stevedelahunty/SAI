@@ -1,4 +1,4 @@
-.PHONY: all
+.PHONY: all test
 
 all:
 	(cd stub; ./autogen.sh;)
@@ -6,6 +6,6 @@ all:
 	(cd stub; make)
 
 install:
-	(cd stub; make install $@)
+	(cd stub; make install $(DESTDIR))
 
 
